@@ -98,4 +98,20 @@
     cursor: pointer;
     accent-color: #3f80ea; /* für modernes Blau */
   }
+
+  /* ==== Delete Styling ==== */
+  .delete-button {
+    background: transparent;
+    border: none;
+    color: #ff8888;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+  }
+  
+  .delete-button:hover {
+    color: #ff4444;
+  }
+  
   
