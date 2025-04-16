@@ -33,6 +33,18 @@ button.addEventListener("click", () => {
       }
     });
 
+    // 🆕 Edit-Button pro Elemtent
+    const editButton = document.createElement("button");
+    editButton.textContent = "✏️";
+    editButton.classList.add("edit-button");
+
+    editButton.addEventListener("click", () => {
+      const newTaskText = prompt("Bearbeite deine Aufgabe:", span.textContent);
+      if (newTaskText !== null && newTaskText.trim() !== "") {
+        span.textContent = newTaskText.trim();
+      }
+    });
+
     // 🆕 Löschen-Button pro Element
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "🗑️";
@@ -41,10 +53,12 @@ button.addEventListener("click", () => {
     deleteButton.addEventListener("click", () => {
       newItem.remove();
     });
+    
 
     //Elemente zusammenfügen
     newItem.appendChild(span);
     newItem.appendChild(checkbox);
+    newItem.appendChild(editButton); 
     newItem.appendChild(deleteButton);
     list.appendChild(newItem);
 
