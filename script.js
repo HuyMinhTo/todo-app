@@ -3,66 +3,75 @@ const input = document.getElementById("todo-input");
 const button = document.getElementById("todo-button");
 const list = document.getElementById("todo-list");
 
+function createEditButton(spanElement) {
+  const editButton = document.createElement("button");
+  editButton.textContent = "✏️";
+  editButton.classList.add("edit-button");
+
+  editButton.addEventListener("click", () => {
+    const newText = prompt("Bearbeite deine Aufgabe:", spanElement.textContent);
+    if (newText !== null && newText.trim() !== "") {
+      spanElement.textContent = newText.trim();
+    }
+  });
+
+  return editButton;
+}
+
+function createDeleteButton(todoItemElement) {
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "🗑️";
+  deleteButton.classList.add("delete-button");
+
+  deleteButton.addEventListener("click", () => {
+    todoItemElement.remove();
+  });
+
+  return deleteButton;
+}
+
+function createCheckbox(spanElement) {
+  const checkbox = document.createElement("input");
+  checkbox.classList.add("todo-checkbox");
+  checkbox.type = "checkbox";
+
+  checkbox.addEventListener("click", () => {
+    if (checkbox.checked) {
+      spanElement.style.textDecoration = "line-through";
+    } else {
+      spanElement.style.textDecoration = "none";
+    }
+  });
+
+  return checkbox;
+}
+
 //Beim Hinzufügen eines neuen To-Do-Elements
 button.addEventListener("click", () => {
-  //Text aus dem Input-Feld trimmen und in Variable "taskText" speichern
   const taskText = input.value.trim();
+  if (taskText === "") return;
 
-  //Überprüfen, ob der Text nicht leer ist
-  if (taskText !== "") {
-    //Neues Li-Element erstellen
-    const newItem = document.createElement("div");
-    newItem.classList.add("todo-item");
+  // Neues ToDo-Element
+  const newItem = document.createElement("div");
+  newItem.classList.add("todo-item");
 
-    //Neues Checkbox-Element erstellen
-    const checkbox = document.createElement("input");
-    checkbox.classList.add("todo-checkbox");
-    checkbox.type = "checkbox";
+  // Text erstellen
+  const span = document.createElement("span");
+  span.textContent = taskText;
+  span.classList.add("todo-text");
 
-    //Text-Element erstellen
-    const span = document.createElement("span");
-    span.textContent = taskText;
-    span.classList.add("todo-text");
+  // Buttons & Checkbox einfügen
+  const checkbox = createCheckbox(span);
+  const editButton = createEditButton(span);
+  const deleteButton = createDeleteButton(newItem);
 
-    //Checkbox Event Listener
-    checkbox.addEventListener("click", () => {
-      if (checkbox.checked) {
-        span.style.textDecoration = "line-through";
-      } else {
-        span.style.textDecoration = "none";
-      }
-    });
+  // Elemente zusammensetzen
+  newItem.appendChild(span);
+  newItem.appendChild(checkbox);
+  newItem.appendChild(editButton);
+  newItem.appendChild(deleteButton);
+  list.appendChild(newItem);
 
-    // 🆕 Edit-Button pro Elemtent
-    const editButton = document.createElement("button");
-    editButton.textContent = "✏️";
-    editButton.classList.add("edit-button");
-
-    editButton.addEventListener("click", () => {
-      const newTaskText = prompt("Bearbeite deine Aufgabe:", span.textContent);
-      if (newTaskText !== null && newTaskText.trim() !== "") {
-        span.textContent = newTaskText.trim();
-      }
-    });
-
-    // 🆕 Löschen-Button pro Element
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "🗑️";
-    deleteButton.classList.add("delete-button");
-
-    deleteButton.addEventListener("click", () => {
-      newItem.remove();
-    });
-    
-
-    //Elemente zusammenfügen
-    newItem.appendChild(span);
-    newItem.appendChild(checkbox);
-    newItem.appendChild(editButton); 
-    newItem.appendChild(deleteButton);
-    list.appendChild(newItem);
-
-    //Input-Feld leeren
-    input.value = "";
-  }
+  // Eingabe leeren
+  input.value = "";
 });
